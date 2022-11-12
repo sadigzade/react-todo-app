@@ -25,7 +25,7 @@ const TodoModal = ({ modalOpen, setModalOpen }) => {
           id: uuid(),
           title,
           status,
-          time: new Date().toLocaleDateString(),
+          time: new Date(),
         }),
       );
       toast.success('Task Added Successfully');
