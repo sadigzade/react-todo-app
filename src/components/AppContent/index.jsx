@@ -11,7 +11,7 @@ const AppContent = () => {
   return (
     <div>
       {sortedTodoList && sortedTodoList.length
-        ? sortedTodoList.map((todo) => <TodoItem key={todo.id} {...todo} />)
+        ? sortedTodoList.map((todo) => <TodoItem key={todo.id} todo={todo} />)
         : 'NO TODO'}
     </div>
   );

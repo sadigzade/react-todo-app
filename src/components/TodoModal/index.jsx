@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdOutlineClose } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
@@ -6,15 +6,27 @@ import { toast } from 'react-hot-toast';
 
 import Button from '../Button';
 
-import { addTodo } from '../../redux/slices/todoSlice';
+import { addTodo, updateTodo } from '../../redux/slices/todoSlice';
+
+import { getFormatedDate } from '../../utils/getFormatedDate';
 
 import classes from './TodoModal.module.scss';
 
-const TodoModal = ({ type, modalOpen, setModalOpen }) => {
+const TodoModal = ({ type, modalOpen, setModalOpen, todo }) => {
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('incomplete');
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (type === 'update' && todo) {
+      setTitle(todo.title);
+      setStatus(todo.status);
+    } else {
+      setTitle('');
+      setStatus('incomplete');
+    }
+  }, [type, todo, modalOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,18 +41,27 @@ const TodoModal = ({ type, modalOpen, setModalOpen }) => {
             id: uuid(),
             title,
             status,
-            time: new Date().toLocaleString(),
+            time: getFormatedDate(new Date().toLocaleString()),
           }),
         );
         toast.success('Task Added Successfully');
-        setModalOpen(false);
       }
 
       if (type === 'update') {
-        console.log('update mfk');
+        if (todo.title !== title || todo.status !== status) {
+          dispatch(
+            updateTodo({
+              ...todo,
+              title,
+              status,
+            }),
+          );
+        } else {
+          toast.error('No Changes Mode');
+        }
+
+        setModalOpen(false);
       }
-    } else {
-      toast.error("Title shouldn't be empty");
     }
   };
 

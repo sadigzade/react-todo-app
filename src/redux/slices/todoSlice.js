@@ -33,8 +33,25 @@ export const todoSlice = createSlice({
         localStorage.setItem('todoList', JSON.stringify(state.todoList));
       }
     },
+    updateTodo: (state, action) => {
+      const data = localStorage.getItem('todoList');
+
+      if (data) {
+        const todoList = JSON.parse(data);
+
+        todoList.forEach((todo) => {
+          if (todo.id === action.payload.id) {
+            todo.title = action.payload.title;
+            todo.status = action.payload.status;
+          }
+        });
+
+        state.todoList = todoList;
+        localStorage.setItem('todoList', JSON.stringify(todoList));
+      }
+    },
   },
 });
 
-export const { addTodo, deleteTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, updateTodo } = todoSlice.actions;
 export default todoSlice.reducer;

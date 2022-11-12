@@ -11,12 +11,12 @@ import TodoModal from '../../TodoModal';
 
 import classes from './TodoItem.module.scss';
 
-const TodoItem = ({ id, status, title, time }) => {
+const TodoItem = ({ todo }) => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteTodo(id));
+    dispatch(deleteTodo(todo.id));
     toast.success('Todo Delete Successfully');
   };
 
@@ -32,11 +32,11 @@ const TodoItem = ({ id, status, title, time }) => {
             <p
               className={getClasses([
                 classes.todoText,
-                status === 'complete' && classes['todoText--completed'],
+                todo.status === 'complete' && classes['todoText--completed'],
               ])}>
-              {title}
+              {todo.title}
             </p>
-            <p className={classes.time}>{format(new Date(time), 'p, dd/MM/yyyy')}</p>
+            <p className={classes.time}>{format(new Date(todo.time), 'p, dd/MM/yyyy')}</p>
           </div>
         </div>
         <div className={classes.todoActions}>
@@ -58,7 +58,12 @@ const TodoItem = ({ id, status, title, time }) => {
           </div>
         </div>
       </div>
-      <TodoModal type="update" modalOpen={updateModalOpen} setModalOpen={setUpdateModalOpen} />
+      <TodoModal
+        type="update"
+        modalOpen={updateModalOpen}
+        setModalOpen={setUpdateModalOpen}
+        todo={todo}
+      />
     </Fragment>
   );
 };
