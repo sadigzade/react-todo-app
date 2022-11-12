@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'react-hot-toast';
 
-import Button from '../../Button';
+import Button from '../Button';
 
-import { addTodo } from '../../../redux/slices/todoSlice';
+import { addTodo } from '../../redux/slices/todoSlice';
 
 import classes from './TodoModal.module.scss';
 
-const TodoModal = ({ modalOpen, setModalOpen }) => {
+const TodoModal = ({ type, modalOpen, setModalOpen }) => {
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('incomplete');
 
@@ -18,18 +18,27 @@ const TodoModal = ({ modalOpen, setModalOpen }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    if (title === '') {
+      toast.error('Please enter a title');
+      return;
+    }
     if (title && status) {
-      dispatch(
-        addTodo({
-          id: uuid(),
-          title,
-          status,
-          time: new Date().toLocaleString(),
-        }),
-      );
-      toast.success('Task Added Successfully');
-      setModalOpen(false);
+      if (type === 'add') {
+        dispatch(
+          addTodo({
+            id: uuid(),
+            title,
+            status,
+            time: new Date().toLocaleString(),
+          }),
+        );
+        toast.success('Task Added Successfully');
+        setModalOpen(false);
+      }
+
+      if (type === 'update') {
+        console.log('update mfk');
+      }
     } else {
       toast.error("Title shouldn't be empty");
     }
@@ -43,7 +52,7 @@ const TodoModal = ({ modalOpen, setModalOpen }) => {
             <MdOutlineClose />
           </div>
           <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
-            <h1 className={classes.formTitle}>Add Task</h1>
+            <h1 className={classes.formTitle}>{type === 'update' ? 'Update' : 'Add'} Task</h1>
             <label htmlFor="title">
               Title
               <input
@@ -66,7 +75,7 @@ const TodoModal = ({ modalOpen, setModalOpen }) => {
             </label>
             <div className={classes.buttonContainer}>
               <Button type="submit" variant="primary">
-                Add Task
+                {type === 'update' ? 'Update' : 'Add'} Task
               </Button>
               <Button variant="secondary" onClickModal={() => setModalOpen(false)}>
                 Close

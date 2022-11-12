@@ -4,7 +4,7 @@ import Button from '../Button';
 import SortPopup from './SortPopup';
 
 import classes from './AppHeader.module.scss';
-import TodoModal from './TodoModal';
+import TodoModal from '../TodoModal';
 
 const AppHeader = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -19,7 +19,7 @@ const AppHeader = () => {
         <option value="incomplete">Incomplete</option>
         <option value="complete">Complete</option>
       </SortPopup>
-      <TodoModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <TodoModal type="add" modalOpen={modalOpen} setModalOpen={setModalOpen} />
     </div>
   );
 };
