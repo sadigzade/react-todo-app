@@ -1,14 +1,20 @@
 import React from 'react';
 import { format } from 'date-fns/esm';
+import { useDispatch } from 'react-redux';
 import { MdDelete, MdEdit } from 'react-icons/md';
+import { toast } from 'react-hot-toast';
 
 import { getClasses } from '../../../utils/getClasses';
+import { deleteTodo } from '../../../redux/slices/todoSlice';
 
 import classes from './TodoItem.module.scss';
 
-const TodoItem = ({ status, title, time }) => {
+const TodoItem = ({ id, status, title, time }) => {
+  const dispatch = useDispatch();
+
   const handleDelete = () => {
-    console.log('deleting');
+    dispatch(deleteTodo(id));
+    toast.success('Todo Delete Successfully');
   };
 
   const handleUpdate = () => {
