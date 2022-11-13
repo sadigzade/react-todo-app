@@ -3,14 +3,26 @@ import { format } from 'date-fns/esm';
 import { useDispatch } from 'react-redux';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { toast } from 'react-hot-toast';
+import { motion } from 'framer-motion';
 
 import { getClasses } from '../../../utils/getClasses';
 import { deleteTodo, updateTodo } from '../../../redux/slices/todoSlice';
 
 import TodoModal from '../../TodoModal';
+import CheckButton from './CheckButton';
 
 import classes from './TodoItem.module.scss';
-import CheckButton from './CheckButton';
+
+const childVariant = {
+  hidden: {
+    y: 20,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
 
 const TodoItem = ({ todo }) => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
@@ -46,7 +58,7 @@ const TodoItem = ({ todo }) => {
 
   return (
     <Fragment>
-      <div className={classes.item}>
+      <motion.div className={classes.item} variants={childVariant}>
         <div className={classes.todoDetails}>
           <CheckButton checked={checked} setChecked={setChecked} handleCheck={handleCheck} />
           <div className={classes.texts}>
@@ -78,7 +90,7 @@ const TodoItem = ({ todo }) => {
             <MdEdit />
           </div>
         </div>
-      </div>
+      </motion.div>
       <TodoModal
         type="update"
         modalOpen={updateModalOpen}
