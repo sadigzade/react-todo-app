@@ -6,14 +6,18 @@ import TodoItem from './TodoItem';
 import classes from './AppContent.module.scss';
 
 const AppContent = () => {
-  const todoList = useSelector((state) => state.todo.todoList);
+  const { filterStatus, todoList } = useSelector((state) => state.todo);
   const sortedTodoList = [...todoList];
   sortedTodoList.sort((a, b) => new Date(b.time) - new Date(a.time));
 
+  const filteredTodoList = sortedTodoList.filter((item) =>
+    filterStatus === 'all' ? true : item.status === filterStatus ? true : false,
+  );
+
   return (
     <div className={classes.content__wrapper}>
-      {sortedTodoList && sortedTodoList.length
-        ? sortedTodoList.map((todo) => <TodoItem key={todo.id} todo={todo} />)
+      {filteredTodoList && filteredTodoList.length
+        ? filteredTodoList.map((todo) => <TodoItem key={todo.id} todo={todo} />)
         : 'NO TODO'}
     </div>
   );

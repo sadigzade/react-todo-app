@@ -4,9 +4,14 @@ import { getClasses } from '../../../utils/getClasses';
 
 import classes from './SortPopup.module.scss';
 
-const SortPopup = ({ children }) => {
+const SortPopup = ({ children, filterStatus, updateFilter }) => {
   return (
-    <select className={getClasses([classes.button, classes.button__select])}>{children}</select>
+    <select
+      className={getClasses([classes.button, classes.button__select])}
+      value={filterStatus}
+      onChange={(e) => updateFilter(e)}>
+      {children}
+    </select>
   );
 };
 

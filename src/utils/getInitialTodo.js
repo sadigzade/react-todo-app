@@ -6,5 +6,8 @@ export const getInitialTodo = () => {
     localStorage.setItem('todoList', JSON.stringify([]));
   }
 
-  return { todoList };
+  return {
+    filterStatus: 'all',
+    todoList,
+  };
 };
