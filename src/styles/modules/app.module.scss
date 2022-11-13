@@ -5,16 +5,6 @@
   width: 100%;
   margin: 0 auto;
 }
-
-.content__wrapper {
-  background-color: var(--bg-2);
-  padding: 2rem;
-  border-radius: 12px;
-  @include smallDeviceSize {
-    padding: 1.5rem;
-  }
-}
-
 .emptyText {
   // display: inline-block;
   font-size: 1.6rem;

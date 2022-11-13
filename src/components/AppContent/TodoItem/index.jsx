@@ -1,19 +1,29 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { format } from 'date-fns/esm';
 import { useDispatch } from 'react-redux';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { toast } from 'react-hot-toast';
 
 import { getClasses } from '../../../utils/getClasses';
-import { deleteTodo } from '../../../redux/slices/todoSlice';
+import { deleteTodo, updateTodo } from '../../../redux/slices/todoSlice';
 
 import TodoModal from '../../TodoModal';
 
 import classes from './TodoItem.module.scss';
+import CheckButton from './CheckButton';
 
 const TodoItem = ({ todo }) => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
+  const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (todo.status === 'complete') {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }, [todo.status]);
 
   const handleDelete = () => {
     dispatch(deleteTodo(todo.id));
@@ -24,10 +34,21 @@ const TodoItem = ({ todo }) => {
     setUpdateModalOpen(true);
   };
 
+  const handleCheck = () => {
+    setChecked(!checked);
+    dispatch(
+      updateTodo({
+        ...todo,
+        status: checked ? 'incomplete' : 'complete',
+      }),
+    );
+  };
+
   return (
     <Fragment>
       <div className={classes.item}>
         <div className={classes.todoDetails}>
+          <CheckButton checked={checked} setChecked={setChecked} handleCheck={handleCheck} />
           <div className={classes.texts}>
             <p
               className={getClasses([
