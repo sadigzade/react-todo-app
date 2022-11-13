@@ -80,6 +80,7 @@ const TodoModal = ({ type, modalOpen, setModalOpen, todo }) => {
           );
         } else {
           toast.error('No Changes Mode');
+          return;
         }
 
         setModalOpen(false);
