@@ -1,6 +1,6 @@
 ![React Todo App](./banner.png)
 
-# React Todo App.
+# React Todo App
 
 Полное приложение Todo со всеми функциями.
 
